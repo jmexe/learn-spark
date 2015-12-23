@@ -43,10 +43,17 @@ def BFSMap(node):
             newColor = "G"
             if (targetCharacterID == connection):
                 hitCounter.add(1)
-            
+
+            newEntry = (newCharacterID, ([], newDistance, newColor))
+            results.append(newEntry)
+        color = 'B'
+    results.append((characterID, (connections, distance, color)))
+    return results
+
 
 itrRDD = createStartingRDD()
 for interation in range(0, 10):
-    mapped = itrRDD.flatMap(BFS)
+    mapped = itrRDD.flatMap(BFSMap)
+    print "Processing", mapped.count(), "values."
 
-
+    if hitCounter.value > 0:
